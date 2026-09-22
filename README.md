@@ -1,13 +1,9 @@
-# TrabzonHava v3
+# TrabzonHava v4
 
-Trabzon için mobil uyumlu kişisel hava paneli.
+v3 özellikleri korunarak:
+- 🚦 Trafik bölümü ve Google Maps canlı trafik erişimi
+- 🏔️ MapLibre tabanlı gerçek 3D arazi
+- Trabzon, Uzungöl, Sümela ve Hıdırnebi hızlı 3D konum düğmeleri
+- 18 ilçe hava, tahmin, radar, şehir kameraları, deniz, doğa ve arşiv
 
-- 18 ilçe canlı hava
-- 7 günlük ve 24 saatlik tahmin
-- Windy radar
-- Trabzon Büyükşehir Belediyesi şehir kameraları bölümü
-- Karadeniz dalga verisi
-- Doğa noktaları
-- Tarihsel model/reanalysis sorgusu
-
-Kamera kartları Trabzon Büyükşehir Belediyesi'nin resmî Şehir Kameraları sayfasını açar.
+Not: Google'ın gerçek zamanlı TrafficLayer katmanını web sayfasının içine gömmek API anahtarı gerektirir. Bu nedenle v4 trafik sekmesi Google Maps canlı trafik görünümüne güvenli geçiş sağlar.

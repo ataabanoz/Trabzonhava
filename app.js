@@ -5,7 +5,7 @@ const codeInfo=c=>({0:['Açık','☀️'],1:['Çoğunlukla açık','🌤️'],2:
 const compass=d=>['K','KKD','KD','DKD','D','DGD','GD','GGD','G','GGB','GB','BGB','B','BKB','KB','KKB'][Math.round((((d||0)%360)/22.5))%16];
 function tick(){$('#clock').textContent=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})} tick();setInterval(tick,30000);
 const sel=$('#district'); Object.keys(D).forEach(n=>{sel.add(new Option(n,n)); $('#districts').insertAdjacentHTML('beforeend',`<div class="district" data-name="${n}"><b>${n}</b><span>hava durumunu aç</span></div>`)}); sel.value=selected;
-$$('#nav button').forEach(b=>b.onclick=()=>{ $$('#nav button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); $$('.view').forEach(v=>v.classList.remove('active')); $('#'+b.dataset.view).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); if(b.dataset.view==='sea') loadSea(); });
+$$('#nav button').forEach(b=>b.onclick=()=>{ $$('#nav button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); $$('.view').forEach(v=>v.classList.remove('active')); $('#'+b.dataset.view).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); if(b.dataset.view==='sea') loadSea(); if(b.dataset.view==='map3d') init3DMap(); });
 async function loadWeather(){const [lat,lon]=D[selected]; $('#status').className='status';$('#status').textContent='Canlı veri alınıyor…'; try{const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,precipitation_probability_max,wind_speed_10m_max&timezone=Europe%2FIstanbul&forecast_days=7`; const r=await fetch(url,{cache:'no-store'}); if(!r.ok) throw Error(r.status); const d=await r.json(); const c=d.current, ci=codeInfo(c.weather_code); $('#place').textContent=`${selected.toUpperCase()} • CANLI`; $('#temp').textContent=Math.round(c.temperature_2m)+'°'; $('#condition').textContent=ci[0]; $('#weatherIcon').textContent=ci[1]; $('#feels').textContent=`Hissedilen ${Math.round(c.apparent_temperature)}° • Hamle ${Math.round(c.wind_gusts_10m)} km/sa`; $('#humidity').textContent=Math.round(c.relative_humidity_2m)+'%'; $('#wind').textContent=Math.round(c.wind_speed_10m)+' km/sa'; $('#winddir').textContent=`${compass(c.wind_direction_10m)} • ${Math.round(c.wind_direction_10m)}°`; $('#pressure').textContent=Math.round(c.pressure_msl)+' hPa'; $('#rain').textContent=(c.precipitation??0).toFixed(1)+' mm'; $('#cloud').textContent=Math.round(c.cloud_cover)+'%'; $('#status').className='status ok'; $('#status').textContent=`Güncellendi: ${new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})} • Kaynak: Open-Meteo`; renderForecast(d); }catch(e){$('#status').className='status err';$('#status').textContent='Canlı hava verisi alınamadı. İnternet bağlantısını kontrol edip Yenile’ye bas.';$('#condition').textContent='Veri bağlantısı kurulamadı';}}
 function renderForecast(d){$('#forecastTitle').textContent=selected+' • 7 günlük görünüm'; $('#daily').innerHTML=''; d.daily.time.forEach((t,i)=>{let ci=codeInfo(d.daily.weather_code[i]);let day=new Date(t+'T12:00:00').toLocaleDateString('tr-TR',{weekday:'short',day:'numeric'});$('#daily').insertAdjacentHTML('beforeend',`<article><b>${day}</b><div class="big">${ci[1]}</div><b>${Math.round(d.daily.temperature_2m_max[i])}° / ${Math.round(d.daily.temperature_2m_min[i])}°</b><span>${ci[0]}</span><span>Yağış %${d.daily.precipitation_probability_max[i]??0} • ${d.daily.precipitation_sum[i]} mm</span></article>`)}); let now=Date.now(), rows=d.hourly.time.map((t,i)=>({t:new Date(t),i})).filter(x=>x.t.getTime()>=now-3600000).slice(0,24); $('#hourly').innerHTML=''; rows.forEach(x=>{let i=x.i,ci=codeInfo(d.hourly.weather_code[i]);$('#hourly').insertAdjacentHTML('beforeend',`<article><b>${x.t.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</b><span style="font-size:25px">${ci[1]}</span><b>${Math.round(d.hourly.temperature_2m[i])}°</b><span>💧 %${d.hourly.precipitation_probability[i]??0}</span><span>🌬️ ${Math.round(d.hourly.wind_speed_10m[i])}</span></article>`)});}
 sel.onchange=()=>{selected=sel.value;loadWeather()}; $('#refresh').onclick=loadWeather; $('#districts').onclick=e=>{let c=e.target.closest('.district');if(c){selected=c.dataset.name;sel.value=selected;loadWeather();window.scrollTo({top:0,behavior:'smooth'})}};
@@ -17,3 +17,35 @@ renderCameras(); $('#cameraSearch').addEventListener('input',e=>renderCameras(e.
 const maxDate=new Date();maxDate.setDate(maxDate.getDate()-5);$('#archiveDate').max=maxDate.toISOString().slice(0,10);$('#archiveDate').value=new Date(Date.now()-7*86400000).toISOString().slice(0,10);$('#archiveBtn').onclick=async()=>{let date=$('#archiveDate').value;if(!date)return;let [lat,lon]=D[selected];$('#archiveStatus').textContent='Geçmiş veri alınıyor…';try{let url=`https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${date}&end_date=${date}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,wind_speed_10m_max&timezone=Europe%2FIstanbul`;let r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error();let d=await r.json(),x=d.daily;$('#archiveData').innerHTML=`<article><span>En yüksek</span><b>${x.temperature_2m_max[0]}°C</b></article><article><span>En düşük</span><b>${x.temperature_2m_min[0]}°C</b></article><article><span>Yağış</span><b>${x.precipitation_sum[0]} mm</b></article><article><span>Kar</span><b>${x.snowfall_sum[0]} cm</b></article><article><span>Maks. rüzgâr</span><b>${x.wind_speed_10m_max[0]} km/sa</b></article>`;$('#archiveStatus').className='status ok';$('#archiveStatus').textContent=`${selected} • ${date} • tarihsel model/reanalysis verisi`;}catch(e){$('#archiveStatus').className='status err';$('#archiveStatus').textContent='Bu tarih için veri alınamadı.'}};
 loadWeather();
 if('serviceWorker'in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{}); if('caches'in window)caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k))));}
+let terrainMap=null;
+async function init3DMap(){
+  if(terrainMap){setTimeout(()=>terrainMap.resize(),80);return;}
+  const st=$('#map3dStatus');
+  st.textContent='3D arazi yükleniyor…';
+  try{
+    const maplibregl=await import('https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.mjs');
+    terrainMap=new maplibregl.Map({
+      container:'terrainMap',center:[39.72,40.93],zoom:8.5,pitch:62,bearing:-12,maxPitch:85,
+      style:{version:8,sources:{
+        osm:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,maxzoom:19,attribution:'© OpenStreetMap contributors'},
+        terrainSource:{type:'raster-dem',url:'https://tiles.mapterhorn.com/tilejson.json'},
+        hillshadeSource:{type:'raster-dem',url:'https://tiles.mapterhorn.com/tilejson.json'}
+      },layers:[
+        {id:'osm',type:'raster',source:'osm'},
+        {id:'hills',type:'hillshade',source:'hillshadeSource',paint:{'hillshade-exaggeration':0.45}}
+      ],terrain:{source:'terrainSource',exaggeration:1.25}}
+    });
+    terrainMap.addControl(new maplibregl.NavigationControl({visualizePitch:true}),'top-right');
+    terrainMap.on('load',()=>{
+      st.className='status ok';st.textContent='3D arazi hazır • sürükle, döndür ve eğ';
+      [
+        ['Trabzon',[39.727,41.005]],['Uzungöl',[40.295,40.619]],['Sümela',[39.658,40.690]],['Hıdırnebi',[39.407,40.961]]
+      ].forEach(([n,c])=>new maplibregl.Marker().setLngLat(c).setPopup(new maplibregl.Popup().setText(n)).addTo(terrainMap));
+    });
+    const fly=(center,zoom=12)=>terrainMap.flyTo({center,zoom,pitch:68,bearing:-15,duration:1400});
+    $('#mapHome').onclick=()=>fly([39.72,40.93],8.5);
+    $('#mapUzungol').onclick=()=>fly([40.295,40.619],12);
+    $('#mapSumela').onclick=()=>fly([39.658,40.690],13);
+    $('#mapHidirnebi').onclick=()=>fly([39.407,40.961],12);
+  }catch(e){st.className='status err';st.textContent='3D harita yüklenemedi. İnternet bağlantısını kontrol edip sekmeyi yeniden aç.';}
+}
