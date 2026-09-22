@@ -1,9 +1,10 @@
-# TrabzonHava v4
+# TrabzonHava v5
 
-v3 özellikleri korunarak:
-- 🚦 Trafik bölümü ve Google Maps canlı trafik erişimi
-- 🏔️ MapLibre tabanlı gerçek 3D arazi
-- Trabzon, Uzungöl, Sümela ve Hıdırnebi hızlı 3D konum düğmeleri
-- 18 ilçe hava, tahmin, radar, şehir kameraları, deniz, doğa ve arşiv
+v4 korunarak eklendi:
+- ❄️ Kar Merkezi: kar, kar örtüsü, 0°C seviyesi, görüş ve 7 günlük kar
+- 🏕️ Dağ/Yayla Havası: 8 yüksek nokta
+- 🌊 Deniz+: deniz sıcaklığı ve akıntı
+- ☀️ Güneş/Fotoğraf: gün doğumu, batımı, gün ışığı, güneşlenme, UV, yaklaşık golden hour
+- 📈 24 saat meteoroloji grafikleri
 
-Not: Google'ın gerçek zamanlı TrafficLayer katmanını web sayfasının içine gömmek API anahtarı gerektirir. Bu nedenle v4 trafik sekmesi Google Maps canlı trafik görünümüne güvenli geçiş sağlar.
+Kaynaklar: Open-Meteo Weather/Marine; mevcut Windy radar, belediye kameraları, trafik ve 3D harita korunmuştur.
