@@ -1,12 +1,13 @@
-# TrabzonHava
+# TrabzonHava v3
 
-Mobil uyumlu kişisel Trabzon hava paneli.
+Trabzon için mobil uyumlu kişisel hava paneli.
 
-- 18 ilçe seçimi ve canlı hava
-- 7 günlük / 24 saatlik tahmin
-- Windy radar görünümü
+- 18 ilçe canlı hava
+- 7 günlük ve 24 saatlik tahmin
+- Windy radar
+- Trabzon Büyükşehir Belediyesi şehir kameraları bölümü
 - Karadeniz dalga verisi
 - Doğa noktaları
 - Tarihsel model/reanalysis sorgusu
 
-Canlı hava ve tarihsel veriler Open-Meteo; radar görünümü Windy Embed üzerinden alınır.
+Kamera kartları Trabzon Büyükşehir Belediyesi'nin resmî Şehir Kameraları sayfasını açar.
