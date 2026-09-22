@@ -1,12 +1,13 @@
-# TrabzonHava v6 — Balıkçı & Tekne Merkezi
+# TrabzonHava v6.1 — Doğa & Outdoor Merkezi
 
-v5 korunarak eklendi:
-- 🎣 “Şimdi ne atayım?” koşul bazlı başlangıç önerisi
-- 🚤 Denize çıkış koşul göstergesi (seyir güvenliği onayı değildir)
-- 🌊 Dalga/periyot, rüzgâr/hamle, deniz sıcaklığı, akıntı, görüş ve basınç
-- ⏰ Önümüzdeki 12 saat + en sakin saatler
-- 📍 5 seçilebilir Trabzon kıyı bölgesi
-- 🐟 İstavrit, palamut, zargana, mezgit, levrek, lüfer/çinekop rehberi
-- 🎨 Berrak/kapalı/dalgalı/gece/şafak için yem-sahte-çapari renk yardımcısı
+v6 korunarak Doğa bölümü yenilendi.
+- 24 doğa/yayla/dağ/göl/vadi noktası
+- Arama ve tür filtresi
+- Nokta bazlı canlı sıcaklık, hissedilen, yağış, kar, rüzgâr, hamle, görüş, 0°C seviyesi
+- Gün doğumu / gün batımı
+- Kamp ve trekking koşul değerlendirmesi
+- Meteorolojik risk notları
+- 12 saatlik outdoor hava görünümü
+- Seçilen noktayı 3D haritada açma
 
-Canlı deniz/model verileri Open-Meteo Weather + Marine API'den gelir. Balık önerileri kesin av garantisi değildir; yerel tecrübe, sezon ve yürürlükteki amatör avcılık kuralları ayrıca dikkate alınmalıdır.
+Not: Bazı az belgelenmiş yüksek dağ noktalarının konumları yaklaşık işaretlenmiştir; bunlar rota/navigasyon koordinatı değildir.

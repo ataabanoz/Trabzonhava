@@ -5,7 +5,7 @@ const codeInfo=c=>({0:['Açık','☀️'],1:['Çoğunlukla açık','🌤️'],2:
 const compass=d=>['K','KKD','KD','DKD','D','DGD','GD','GGD','G','GGB','GB','BGB','B','BKB','KB','KKB'][Math.round((((d||0)%360)/22.5))%16];
 function tick(){$('#clock').textContent=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})} tick();setInterval(tick,30000);
 const sel=$('#district'); Object.keys(D).forEach(n=>{sel.add(new Option(n,n)); $('#districts').insertAdjacentHTML('beforeend',`<div class="district" data-name="${n}"><b>${n}</b><span>hava durumunu aç</span></div>`)}); sel.value=selected;
-$$('#nav button').forEach(b=>b.onclick=()=>{ $$('#nav button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); $$('.view').forEach(v=>v.classList.remove('active')); $('#'+b.dataset.view).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); if(b.dataset.view==='sea') loadSea(); if(b.dataset.view==='map3d') init3DMap(); if(b.dataset.view==='fishing') loadFishing(); if(b.dataset.view==='snow') loadSnow(); if(b.dataset.view==='mountains') loadMountains(); if(b.dataset.view==='sun') loadSun(); if(b.dataset.view==='charts') renderCharts(); });
+$$('#nav button').forEach(b=>b.onclick=()=>{ $$('#nav button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); $$('.view').forEach(v=>v.classList.remove('active')); $('#'+b.dataset.view).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); if(b.dataset.view==='sea') loadSea(); if(b.dataset.view==='map3d') init3DMap(); if(b.dataset.view==='fishing') loadFishing(); if(b.dataset.view==='snow') loadSnow(); if(b.dataset.view==='mountains') loadMountains(); if(b.dataset.view==='sun') loadSun(); if(b.dataset.view==='charts') renderCharts(); if(b.dataset.view==='nature') renderNaturePoints(); });
 async function loadWeather(){const [lat,lon]=D[selected]; $('#status').className='status';$('#status').textContent='Canlı veri alınıyor…'; try{const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,freezing_level_height,snow_depth,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,precipitation_probability_max,wind_speed_10m_max,sunrise,sunset,daylight_duration,sunshine_duration,uv_index_max&timezone=Europe%2FIstanbul&forecast_days=7`; const r=await fetch(url,{cache:'no-store'}); if(!r.ok) throw Error(r.status); const d=await r.json(); const c=d.current, ci=codeInfo(c.weather_code); $('#place').textContent=`${selected.toUpperCase()} • CANLI`; $('#temp').textContent=Math.round(c.temperature_2m)+'°'; $('#condition').textContent=ci[0]; $('#weatherIcon').textContent=ci[1]; $('#feels').textContent=`Hissedilen ${Math.round(c.apparent_temperature)}° • Hamle ${Math.round(c.wind_gusts_10m)} km/sa`; $('#humidity').textContent=Math.round(c.relative_humidity_2m)+'%'; $('#wind').textContent=Math.round(c.wind_speed_10m)+' km/sa'; $('#winddir').textContent=`${compass(c.wind_direction_10m)} • ${Math.round(c.wind_direction_10m)}°`; $('#pressure').textContent=Math.round(c.pressure_msl)+' hPa'; $('#rain').textContent=(c.precipitation??0).toFixed(1)+' mm'; $('#cloud').textContent=Math.round(c.cloud_cover)+'%'; $('#status').className='status ok'; $('#status').textContent=`Güncellendi: ${new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})} • Kaynak: Open-Meteo`; window.lastWeather=d; renderForecast(d); renderCharts(); }catch(e){$('#status').className='status err';$('#status').textContent='Canlı hava verisi alınamadı. İnternet bağlantısını kontrol edip Yenile’ye bas.';$('#condition').textContent='Veri bağlantısı kurulamadı';}}
 function renderForecast(d){$('#forecastTitle').textContent=selected+' • 7 günlük görünüm'; $('#daily').innerHTML=''; d.daily.time.forEach((t,i)=>{let ci=codeInfo(d.daily.weather_code[i]);let day=new Date(t+'T12:00:00').toLocaleDateString('tr-TR',{weekday:'short',day:'numeric'});$('#daily').insertAdjacentHTML('beforeend',`<article><b>${day}</b><div class="big">${ci[1]}</div><b>${Math.round(d.daily.temperature_2m_max[i])}° / ${Math.round(d.daily.temperature_2m_min[i])}°</b><span>${ci[0]}</span><span>Yağış %${d.daily.precipitation_probability_max[i]??0} • ${d.daily.precipitation_sum[i]} mm</span></article>`)}); let now=Date.now(), rows=d.hourly.time.map((t,i)=>({t:new Date(t),i})).filter(x=>x.t.getTime()>=now-3600000).slice(0,24); $('#hourly').innerHTML=''; rows.forEach(x=>{let i=x.i,ci=codeInfo(d.hourly.weather_code[i]);$('#hourly').insertAdjacentHTML('beforeend',`<article><b>${x.t.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</b><span style="font-size:25px">${ci[1]}</span><b>${Math.round(d.hourly.temperature_2m[i])}°</b><span>💧 %${d.hourly.precipitation_probability[i]??0}</span><span>🌬️ ${Math.round(d.hourly.wind_speed_10m[i])}</span></article>`)});}
 sel.onchange=()=>{selected=sel.value;loadWeather()}; $('#refresh').onclick=loadWeather; $('#districts').onclick=e=>{let c=e.target.closest('.district');if(c){selected=c.dataset.name;sel.value=selected;loadWeather();window.scrollTo({top:0,behavior:'smooth'})}};
@@ -151,3 +151,64 @@ Object.keys(FISH_SPECIES).forEach(n=>$('#fishSpecies')?.add(new Option(n,n))); i
 if($('#fishZone')) $('#fishZone').onchange=()=>{fishingLoaded=false;loadFishing(true)};
 if($('#fishRefresh')) $('#fishRefresh').onclick=()=>loadFishing(true);
 $$('.conditionButtons button').forEach(b=>b.onclick=()=>{$$('.conditionButtons button').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#colorAdvice').textContent=lureAdvice(b.dataset.water)});
+
+
+// --- v6.1 Doğa & Outdoor Merkezi ---
+const NATURE_POINTS=[
+{name:'Uzungöl',district:'Çaykara',type:'gol',lat:40.619,lon:40.295,elev:'~1.090 m'},
+{name:'Hıdırnebi Yaylası',district:'Akçaabat',type:'yayla',lat:40.961,lon:39.407,elev:'~1.600 m'},
+{name:'Sultan Murat Yaylası',district:'Çaykara',type:'yayla',lat:40.674,lon:40.155,elev:'~2.000–2.100 m'},
+{name:'Kadırga Yaylası',district:'Tonya/Şalpazarı çevresi',type:'yayla',lat:40.622,lon:39.145,elev:'~2.300 m'},
+{name:'Sis Dağı',district:'Şalpazarı sınır bölgesi',type:'dag',lat:40.847,lon:39.083,elev:'zirve ~2.182 m'},
+{name:'Erikbeli Yaylası',district:'Tonya',type:'yayla',lat:40.745,lon:39.222,elev:'~1.605–1.800 m'},
+{name:'Şolma Yaylası',district:'Maçka',type:'yayla',lat:40.772,lon:39.533,elev:'~1.800 m'},
+{name:'Lapazan Yaylası',district:'Maçka',type:'yayla',lat:40.679,lon:39.548,elev:'~2.200 m'},
+{name:'Kiraz Yaylası',district:'Maçka',type:'yayla',lat:40.690,lon:39.500,elev:'~1.850 m'},
+{name:'Mavura Yaylası',district:'Maçka',type:'yayla',lat:40.754,lon:39.535,elev:'yüksek yayla'},
+{name:'Kulindağı Yaylası',district:'Maçka',type:'yayla',lat:40.775,lon:39.570,elev:'~1.650 m'},
+{name:'Çakırgöl',district:'Maçka çevresi',type:'gol',lat:40.551,lon:39.679,elev:'yüksek dağ gölü'},
+{name:'Altındere Vadisi / Sümela',district:'Maçka',type:'vadi',lat:40.690,lon:39.658,elev:'vadi / dağlık alan'},
+{name:'Haçka Obası',district:'Düzköy',type:'yayla',lat:40.770,lon:39.390,elev:'~1.784 m'},
+{name:'Kuruçam Yaylası',district:'Akçaabat',type:'yayla',lat:40.905,lon:39.355,elev:'~1.600 m'},
+{name:'Karadağ Yaylası',district:'Tonya',type:'yayla',lat:40.825,lon:39.245,elev:'~1.800 m'},
+{name:'Sazalan Yaylası',district:'Tonya/Şalpazarı',type:'yayla',lat:40.762,lon:39.176,elev:'~1.700 m'},
+{name:'Pazarcık Yaylası',district:'Araklı',type:'yayla',lat:40.710,lon:40.105,elev:'~930 m'},
+{name:'Yeşilyurt Yaylası',district:'Araklı',type:'yayla',lat:40.690,lon:40.080,elev:'~2.035 m'},
+{name:'Yılantaş Yaylası',district:'Araklı',type:'yayla',lat:40.675,lon:40.055,elev:'~2.020 m'},
+{name:'Aygır Gölü',district:'Trabzon yüksek kesimleri',type:'gol',lat:40.600,lon:39.700,elev:'yüksek dağ gölü • konum yaklaşık'},
+{name:'Beypınarı Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.650,lon:39.850,elev:'yüksek yayla • konum yaklaşık'},
+{name:'Kırklar Tepesi',district:'Trabzon yüksek kesimleri',type:'dag',lat:40.620,lon:39.900,elev:'yüksek dağlık alan • konum yaklaşık'},
+{name:'Kurtdere Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.720,lon:39.800,elev:'yüksek yayla • konum yaklaşık'}
+];
+let selectedNature=null;
+function renderNaturePoints(){
+ const q=($('#natureSearch')?.value||'').toLocaleLowerCase('tr-TR'), f=$('#natureFilter')?.value||'all';
+ const arr=NATURE_POINTS.filter(x=>(f==='all'||x.type===f)&&(`${x.name} ${x.district}`.toLocaleLowerCase('tr-TR').includes(q)));
+ $('#natureGrid').innerHTML=arr.map((x,i)=>`<button class="outdoorCard" data-nature="${NATURE_POINTS.indexOf(x)}"><span>${x.type==='gol'?'💧':x.type==='dag'?'⛰️':x.type==='vadi'?'🌲':'🏕️'}</span><b>${x.name}</b><small>${x.district}</small><em>${x.elev}</em></button>`).join('');
+ $('#natureStatus').className='status ok'; $('#natureStatus').textContent=`${arr.length} doğa noktası • Bir noktaya dokunarak canlı koşulları aç`;
+}
+async function loadNaturePoint(i){
+ const x=NATURE_POINTS[i]; if(!x)return; selectedNature=x;
+ $('#outdoorDetail').classList.remove('hidden'); $('#natureStatus').className='status';$('#natureStatus').textContent=x.name+' için canlı model verisi alınıyor…';
+ $('#outdoorName').textContent=x.name;$('#outdoorDistrict').textContent=x.district.toUpperCase();$('#outdoorElev').textContent=x.elev;
+ try{
+  const u=`https://api.open-meteo.com/v1/forecast?latitude=${x.lat}&longitude=${x.lon}&current=temperature_2m,apparent_temperature,precipitation,snowfall,weather_code,wind_speed_10m,wind_gusts_10m&hourly=temperature_2m,apparent_temperature,precipitation,snowfall,wind_speed_10m,wind_gusts_10m,visibility,freezing_level_height,weather_code&daily=sunrise,sunset&forecast_days=2&forecast_hours=24&timezone=Europe%2FIstanbul`;
+  const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw Error(r.status);const d=await r.json(),c=d.current,h=d.hourly,ci=codeInfo(c.weather_code);
+  let k=0; $('#outdoorIcon').textContent=ci[1];$('#oTemp').textContent=Math.round(c.temperature_2m)+'°C';$('#oFeels').textContent=Math.round(c.apparent_temperature)+'°C';$('#oRain').textContent=(c.precipitation??0).toFixed(1)+' mm';$('#oSnow').textContent=(c.snowfall??0).toFixed(1)+' cm';$('#oWind').textContent=Math.round(c.wind_speed_10m)+' km/sa';$('#oGust').textContent=Math.round(c.wind_gusts_10m)+' km/sa';$('#oVis').textContent=((h.visibility?.[k]??0)/1000).toFixed(1)+' km';$('#oFreeze').textContent=Math.round(h.freezing_level_height?.[k]??0)+' m';
+  const ft=t=>new Date(t).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});$('#oRise').textContent=ft(d.daily.sunrise[0]);$('#oSet').textContent=ft(d.daily.sunset[0]);
+  let camp=100,trek=100,warns=[]; const wind=c.wind_speed_10m||0,gust=c.wind_gusts_10m||0,rain=c.precipitation||0,temp=c.apparent_temperature,vis=(h.visibility?.[k]??10000)/1000;
+  if(gust>50){camp-=45;trek-=35;warns.push('💨 Çok kuvvetli hamle riski.')}else if(gust>35){camp-=25;trek-=20;warns.push('🌬️ Kuvvetli rüzgâr.')}
+  if(rain>4){camp-=30;trek-=30;warns.push('🌧️ Kuvvetli yağış koşulu.')}else if(rain>1){camp-=15;trek-=15;warns.push('🌦️ Yağış var.')}
+  if(temp<0){camp-=25;trek-=20;warns.push('🥶 Don/hipotermi riski; kış ekipmanı gerekir.')}else if(temp<5){camp-=12;trek-=10;warns.push('🧥 Soğuk koşullar.')}
+  if(vis<2){camp-=20;trek-=35;warns.push('🌫️ Çok düşük görüş; rota bulma zorlaşabilir.')}else if(vis<5){trek-=15;warns.push('🌫️ Görüş düşük.')}
+  const label=s=>s>=75?'🟢 Uygun görünüyor':s>=50?'🟡 Dikkat':'🔴 Zorlu koşullar';
+  camp=Math.max(0,camp);trek=Math.max(0,trek);$('#campScore').innerHTML=`<b>🏕️ Kamp</b><strong>${label(camp)}</strong><span>${camp}/100</span>`;$('#trekScore').innerHTML=`<b>🥾 Trekking</b><strong>${label(trek)}</strong><span>${trek}/100</span>`;
+  $('#outdoorWarnings').innerHTML=`<b>⚠️ Koşul notları</b><p>${warns.length?warns.join('<br>'):'Belirgin meteorolojik risk eşiği görünmüyor; dağ koşulları yine de yerel olarak değişebilir.'}</p>`;
+  $('#outdoorHours').innerHTML=h.time.slice(0,12).map((t,j)=>`<article><b>${ft(t)}</b><span>${codeInfo(h.weather_code[j])[1]}</span><span>🌡️ ${Math.round(h.temperature_2m[j])}°</span><span>🌬️ ${Math.round(h.wind_speed_10m[j])}</span><span>👁️ ${((h.visibility[j]||0)/1000).toFixed(1)} km</span></article>`).join('');
+  $('#natureStatus').className='status ok';$('#natureStatus').textContent=x.name+' • canlı model koşulları güncellendi';
+ }catch(e){$('#natureStatus').className='status err';$('#natureStatus').textContent='Bu noktanın hava verisi alınamadı.'}
+}
+$('#natureGrid')?.addEventListener('click',e=>{const b=e.target.closest('[data-nature]');if(b)loadNaturePoint(+b.dataset.nature)});
+$('#natureSearch')?.addEventListener('input',renderNaturePoints);$('#natureFilter')?.addEventListener('change',renderNaturePoints);
+$('#natureRefresh')?.addEventListener('click',()=>{if(selectedNature)loadNaturePoint(NATURE_POINTS.indexOf(selectedNature))});
+$('#nature3d')?.addEventListener('click',()=>{if(!selectedNature)return;document.querySelector('[data-view="map3d"]').click();setTimeout(()=>{if(terrainMap)terrainMap.flyTo({center:[selectedNature.lon,selectedNature.lat],zoom:12,pitch:68,bearing:-15,duration:1400})},1200)});
