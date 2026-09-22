@@ -1,13 +1,5 @@
-# TrabzonHava v6.1 — Doğa & Outdoor Merkezi
+# TrabzonHava v6.2 — Genişletilmiş Doğa & Outdoor
 
-v6 korunarak Doğa bölümü yenilendi.
-- 24 doğa/yayla/dağ/göl/vadi noktası
-- Arama ve tür filtresi
-- Nokta bazlı canlı sıcaklık, hissedilen, yağış, kar, rüzgâr, hamle, görüş, 0°C seviyesi
-- Gün doğumu / gün batımı
-- Kamp ve trekking koşul değerlendirmesi
-- Meteorolojik risk notları
-- 12 saatlik outdoor hava görünümü
-- Seçilen noktayı 3D haritada açma
+v6.1 korunarak kullanıcı tarafından istenen yeni Trabzon yayla, dağ, göl, mağara ve doğa noktaları eklendi.
 
-Not: Bazı az belgelenmiş yüksek dağ noktalarının konumları yaklaşık işaretlenmiştir; bunlar rota/navigasyon koordinatı değildir.
+Önemli: Resmî/kuvvetli kaynaklarla konumu doğrulanamayan az bilinen noktalar arayüzde “konum yaklaşık” olarak işaretlenmiştir. Bunlar navigasyon/rota koordinatı olarak kullanılmamalıdır. Meteoroloji verileri Open-Meteo model verisidir.
