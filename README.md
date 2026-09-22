@@ -1,5 +1,10 @@
-# TrabzonHava v6.2 — Genişletilmiş Doğa & Outdoor
+# TrabzonHava v6.3 — Konum Güvenliği Düzeltmesi
 
-v6.1 korunarak kullanıcı tarafından istenen yeni Trabzon yayla, dağ, göl, mağara ve doğa noktaları eklendi.
+- Kırklar Dağı/Tepesi Çaykara Şekersu–Demirkapı hattına taşındı.
+- Aygır Gölü Çaykara Demirkapı/Yedigöller bölgesine düzeltildi.
+- Derindere, Çayıroba, Arpaözü ve Puşur Dağı Çaykara olarak düzeltildi.
+- Arsin Üçpınar ilçe etiketi düzeltildi.
+- Daha önce “Trabzon yüksek kesimleri” etiketiyle temsili koordinat verilmiş ve kesin konumu doğrulanamayan kayıtların sahte koordinatları kaldırıldı.
+- Bu kayıtlarda yanlış canlı hava ve yanlış 3D uçuş yerine “konum doğrulanıyor” gösterilir.
 
-Önemli: Resmî/kuvvetli kaynaklarla konumu doğrulanamayan az bilinen noktalar arayüzde “konum yaklaşık” olarak işaretlenmiştir. Bunlar navigasyon/rota koordinatı olarak kullanılmamalıdır. Meteoroloji verileri Open-Meteo model verisidir.
+Amaç: yanlış noktayı kesinmiş gibi göstermek yerine yalnızca doğrulanmış konumlarda nokta bazlı hava/3D özelliğini çalıştırmak.

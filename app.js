@@ -175,24 +175,24 @@ const NATURE_POINTS=[
 {name:'Pazarcık Yaylası',district:'Araklı',type:'yayla',lat:40.710,lon:40.105,elev:'~930 m'},
 {name:'Yeşilyurt Yaylası',district:'Araklı',type:'yayla',lat:40.690,lon:40.080,elev:'~2.035 m'},
 {name:'Yılantaş Yaylası',district:'Araklı',type:'yayla',lat:40.675,lon:40.055,elev:'~2.020 m'},
-{name:'Aygır Gölü',district:'Trabzon yüksek kesimleri',type:'gol',lat:40.600,lon:39.700,elev:'yüksek dağ gölü • konum yaklaşık'},
-{name:'Beypınarı Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.650,lon:39.850,elev:'yüksek yayla • konum yaklaşık'},
-{name:'Kırklar Tepesi',district:'Trabzon yüksek kesimleri',type:'dag',lat:40.620,lon:39.900,elev:'yüksek dağlık alan • konum yaklaşık'},
+{name:'Aygır Gölü',district:'Çaykara • Demirkapı / Yedigöller',type:'gol',lat:40.526484,lon:40.390582,elev:'~2.700 m • Kırklar Dağı kuzey etekleri'},
+{name:'Beypınarı Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
+{name:'Kırklar Tepesi',district:'Çaykara • Şekersu / Demirkapı',type:'dag',lat:40.515,lon:40.405,elev:'~3.200 m • Kırklar Dağı'},
 {name:'Kurtdere Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.720,lon:39.800,elev:'yüksek yayla • konum yaklaşık'}
  ,
 {name:'Madur Dağı',district:'Araklı / Sürmene yüksekleri',type:'dag',lat:40.610,lon:40.120,elev:'yüksek dağ • konum yaklaşık'},
-{name:'Derinoba Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.690,lon:39.760,elev:'yüksek yayla • konum yaklaşık'},
+{name:'Derinoba Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
 {name:'Zigana Dağı / Kayak Merkezi',district:'Maçka / Zigana',type:'dag',lat:40.650,lon:39.400,elev:'~2.000 m+ • dağ/kayak alanı'},
-{name:'Turnagöl Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.690,lon:39.900,elev:'yüksek yayla • konum yaklaşık'},
+{name:'Turnagöl Yaylası',district:'Çaykara yüksekleri • konum teyidi sınırlı',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
 {name:'Camiboğazı Yaylası',district:'Maçka / Çakırgöl çevresi',type:'yayla',lat:40.610,lon:39.620,elev:'yüksek yayla • Çakırgöl hattı'},
 {name:'Mesoraş Yaylası',district:'Maçka / Çakırgöl çevresi',type:'yayla',lat:40.620,lon:39.610,elev:'yüksek yayla • Çakırgöl hattı'},
 {name:'Çakırgöl Yaylası',district:'Maçka',type:'yayla',lat:40.551,lon:39.679,elev:'~2.500 m'},
-{name:'Sırhanlı Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.690,lon:39.950,elev:'yüksek yayla • konum yaklaşık'},
+{name:'Sırhanlı Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
 {name:'Taşköprü Yaylası',district:'Araklı / Dağbaşı hattı',type:'yayla',lat:40.590,lon:40.000,elev:'yüksek yayla • konum yaklaşık'},
 {name:'Santa Harabeleri',district:'Arsin / Dumanlı-Santa',type:'vadi',lat:40.650,lon:39.980,elev:'tarihî dağ yerleşimi • konum yaklaşık'},
-{name:'Üçpınar Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.680,lon:39.840,elev:'yüksek yayla • konum yaklaşık'},
-{name:'Seslikaya Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.700,lon:39.870,elev:'yüksek yayla • konum yaklaşık'},
-{name:'Parma Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.720,lon:39.900,elev:'yüksek yayla • konum yaklaşık'},
+{name:'Üçpınar Yaylası',district:'Arsin • Üçpınar çevresi',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
+{name:'Seslikaya Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
+{name:'Parma Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
 {name:'Görnek Tabiat Parkı',district:'Trabzon',type:'vadi',lat:40.780,lon:39.700,elev:'tabiat alanı • konum yaklaşık'},
 {name:'Şahinkaya',district:'Düzköy',type:'dag',lat:40.830,lon:39.420,elev:'kaya/doğa alanı • konum yaklaşık'},
 {name:'Çal Mağarası',district:'Düzköy',type:'vadi',lat:40.865,lon:39.374,elev:'mağara/doğa alanı'},
@@ -202,16 +202,16 @@ const NATURE_POINTS=[
 {name:'Balıklı Göl',district:'Akçaabat / Hıdırnebi hattı',type:'gol',lat:40.930,lon:39.390,elev:'~1.500 m'},
 {name:'Demirkapı Yaylası',district:'Çaykara / Haldizen',type:'yayla',lat:40.500,lon:40.390,elev:'~2.700 m bölgesi • yüksek yayla'},
 {name:'Haldizen Dağları',district:'Çaykara',type:'dag',lat:40.500,lon:40.360,elev:'zirveler 3.300 m+ • yüksek dağ'},
-{name:'Kurtdağı Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.650,lon:39.950,elev:'yüksek yayla • konum yaklaşık'},
-{name:'Derindere',district:'Trabzon yüksek kesimleri',type:'vadi',lat:40.700,lon:40.000,elev:'vadi/doğa alanı • konum yaklaşık'},
-{name:'Çayıroba Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.680,lon:40.020,elev:'yüksek yayla • konum yaklaşık'},
-{name:'Dağönü Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.660,lon:40.040,elev:'yüksek yayla • konum yaklaşık'},
-{name:'Puşur Dağı',district:'Trabzon yüksek kesimleri',type:'dag',lat:40.600,lon:39.950,elev:'yüksek dağ • konum yaklaşık'},
-{name:'Arpaözü',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.650,lon:40.000,elev:'yayla/doğa alanı • konum yaklaşık'},
-{name:'Aksu Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.670,lon:39.920,elev:'yüksek yayla • konum yaklaşık'},
-{name:'Anaborda Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.690,lon:39.930,elev:'yüksek yayla • konum yaklaşık'},
-{name:'Bolitliler Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.700,lon:39.940,elev:'yüksek yayla • konum yaklaşık'},
-{name:'Çakıroğlu Yaylası',district:'Trabzon yüksek kesimleri',type:'yayla',lat:40.710,lon:39.950,elev:'yüksek yayla • konum yaklaşık'},
+{name:'Kurtdağı Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
+{name:'Derindere',district:'Çaykara • Derindere',type:'vadi',lat:null,lon:null,elev:'Çaykara yüksekleri • kesin nokta doğrulanıyor'},
+{name:'Çayıroba Yaylası',district:'Çaykara • Çayıroba',type:'yayla',lat:null,lon:null,elev:'Çaykara yüksekleri • kesin nokta doğrulanıyor'},
+{name:'Dağönü Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
+{name:'Puşur Dağı',district:'Çaykara • Arpaözü çevresi',type:'dag',lat:null,lon:null,elev:'yüksek dağ • kesin nokta doğrulanıyor'},
+{name:'Arpaözü',district:'Çaykara • Arpaözü',type:'yayla',lat:null,lon:null,elev:'Çaykara yüksekleri • kesin nokta doğrulanıyor'},
+{name:'Aksu Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
+{name:'Anaborda Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
+{name:'Bolitliler Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
+{name:'Çakıroğlu Yaylası',district:'Konum doğrulanıyor',type:'yayla',lat:null,lon:null,elev:'konum doğrulanıyor'},
 {name:'Mesoraş Yaylası (Of çevresi)',district:'Of yüksekleri',type:'yayla',lat:40.720,lon:40.220,elev:'yüksek yayla • konum yaklaşık'}
 ];
 let selectedNature=null;
@@ -223,6 +223,16 @@ function renderNaturePoints(){
 }
 async function loadNaturePoint(i){
  const x=NATURE_POINTS[i]; if(!x)return; selectedNature=x;
+ if(x.lat==null||x.lon==null){
+  $('#outdoorDetail').classList.remove('hidden');
+  $('#outdoorName').textContent=x.name; $('#outdoorDistrict').textContent=x.district.toUpperCase(); $('#outdoorElev').textContent=x.elev;
+  $('#natureStatus').className='status err'; $('#natureStatus').textContent='Bu noktanın kesin koordinatı henüz doğrulanmadı; yanlış hava/3D konumu göstermiyoruz.';
+  ['oTemp','oFeels','oRain','oSnow','oWind','oGust','oVis','oFreeze','oRise','oSet'].forEach(id=>$('#'+id).textContent='—');
+  $('#campScore').innerHTML='<b>🏕️ Kamp</b><strong>Koordinat doğrulanıyor</strong>';
+  $('#trekScore').innerHTML='<b>🥾 Trekking</b><strong>Koordinat doğrulanıyor</strong>';
+  $('#outdoorWarnings').innerHTML='<b>📍 Konum güvenliği</b><p>Bu yer için rastgele/temsili koordinat kaldırıldı. Kesin konum doğrulanana kadar canlı nokta havası ve 3D harita devre dışıdır.</p>';
+  $('#outdoorHours').innerHTML=''; return;
+ }
  $('#outdoorDetail').classList.remove('hidden'); $('#natureStatus').className='status';$('#natureStatus').textContent=x.name+' için canlı model verisi alınıyor…';
  $('#outdoorName').textContent=x.name;$('#outdoorDistrict').textContent=x.district.toUpperCase();$('#outdoorElev').textContent=x.elev;
  try{
@@ -245,4 +255,4 @@ async function loadNaturePoint(i){
 $('#natureGrid')?.addEventListener('click',e=>{const b=e.target.closest('[data-nature]');if(b)loadNaturePoint(+b.dataset.nature)});
 $('#natureSearch')?.addEventListener('input',renderNaturePoints);$('#natureFilter')?.addEventListener('change',renderNaturePoints);
 $('#natureRefresh')?.addEventListener('click',()=>{if(selectedNature)loadNaturePoint(NATURE_POINTS.indexOf(selectedNature))});
-$('#nature3d')?.addEventListener('click',()=>{if(!selectedNature)return;document.querySelector('[data-view="map3d"]').click();setTimeout(()=>{if(terrainMap)terrainMap.flyTo({center:[selectedNature.lon,selectedNature.lat],zoom:12,pitch:68,bearing:-15,duration:1400})},1200)});
+$('#nature3d')?.addEventListener('click',()=>{if(!selectedNature||selectedNature.lat==null||selectedNature.lon==null)return;document.querySelector('[data-view="map3d"]').click();setTimeout(()=>{if(terrainMap)terrainMap.flyTo({center:[selectedNature.lon,selectedNature.lat],zoom:12,pitch:68,bearing:-15,duration:1400})},1200)});
