@@ -147,7 +147,7 @@ function renderSpecies(){
  const n=$('#fishSpecies').value||Object.keys(FISH_SPECIES)[0],x=FISH_SPECIES[n];
  $('#speciesGuide').innerHTML=`<article><b>${n}</b><p><strong>Sezon:</strong> ${x.months}</p><p><strong>Saat:</strong> ${x.times}</p><p><strong>Takım:</strong> ${x.rig}</p><p><strong>Yem/sahte:</strong> ${x.bait}</p><p><strong>Su katmanı:</strong> ${x.depth}</p><p><strong>Renk:</strong> ${x.colors}</p></article>`;
 }
-Object.keys(FISH_SPECIES).forEach(n=>$('#fishSpecies')?.add(new Option(n,n))); if($('#fishSpecies')){renderSpecies();$('#fishSpecies'].onchange=renderSpecies;}
+Object.keys(FISH_SPECIES).forEach(n=>$('#fishSpecies')?.add(new Option(n,n))); if($('#fishSpecies')){renderSpecies();$('#fishSpecies').onchange=renderSpecies;}
 if($('#fishZone')) $('#fishZone').onchange=()=>{fishingLoaded=false;loadFishing(true)};
 if($('#fishRefresh')) $('#fishRefresh').onclick=()=>loadFishing(true);
 $$('.conditionButtons button').forEach(b=>b.onclick=()=>{$$('.conditionButtons button').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#colorAdvice').textContent=lureAdvice(b.dataset.water)});
