@@ -1,3 +1,2 @@
-# TrabzonHava v6.8
-Erken Uyarı ve Hava Modelleri bölümleri tamamen kaldırıldı.
-Diğer TrabzonHava bölümleri korunmuştur.
+# TrabzonHava v6.9
+Doğa & Outdoor listesinden kullanıcının belirttiği 16 nokta kaldırıldı. Diğer bölümler korunmuştur.
