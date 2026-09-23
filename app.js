@@ -283,15 +283,50 @@ async function loadAlerts(){
  const severe=uniq.some(x=>x.level==='red');$('#alertBanner').className='alertBanner '+(severe?'red':uniq.length?'orange':'green');$('#alertBanner').textContent=severe?'🔴 '+n+' için önemli meteorolojik risk sinyali':uniq.length?'🟠 '+n+' için dikkat gerektiren hava sinyalleri':'🟢 '+n+' için önemli kısa vadeli risk görünmüyor';
  }catch(e){$('#alertBanner').className='alertBanner red';$('#alertBanner').textContent='Uyarı verileri alınamadı.'}
 }
-async function initNotifications(){if('serviceWorker'in navigator)try{await navigator.serviceWorker.register('./sw.js?v=6.6')}catch(e){} const s=$('#notifyState');if(s)s.textContent=!('Notification'in window)?'Bu tarayıcı bildirim API’sini desteklemiyor.':`Bildirim izni: ${Notification.permission}`}
+async function initNotifications(){if('serviceWorker'in navigator)try{await navigator.serviceWorker.register('./sw.js?v=6.6.1')}catch(e){} const s=$('#notifyState');if(s)s.textContent=!('Notification'in window)?'Bu tarayıcı bildirim API’sini desteklemiyor.':`Bildirim izni: ${Notification.permission}`}
 $('#enableNotify')?.addEventListener('click',async()=>{if(!('Notification'in window))return;const x=await Notification.requestPermission();$('#notifyState').textContent='Bildirim izni: '+x});
-$('#testNotify')?.addEventListener('click',async()=>{if(Notification.permission!=='granted')return;const reg=await navigator.serviceWorker.ready;reg.showNotification('⚡ TrabzonHava test bildirimi',{body:'Erken uyarı bildirim altyapısı çalışıyor.',icon:'./icon-192.png',data:{url:'./?v=6.6#alerts'}})});
+$('#testNotify')?.addEventListener('click',async()=>{if(Notification.permission!=='granted')return;const reg=await navigator.serviceWorker.ready;reg.showNotification('⚡ TrabzonHava test bildirimi',{body:'Erken uyarı bildirim altyapısı çalışıyor.',icon:'./icon-192.png',data:{url:'./?v=6.6.1#alerts'}})});
 $('#alertRefresh')?.addEventListener('click',loadAlerts);$('#alertDistrict')?.addEventListener('change',loadAlerts);setupAlertDistricts();initNotifications();
 
-const WX_MODELS=[{id:'ecmwf_ifs025',name:'ECMWF IFS',org:'ECMWF'},{id:'gfs_seamless',name:'GFS',org:'NOAA'},{id:'ukmo_seamless',name:'UKMO',org:'Met Office'},{id:'icon_seamless',name:'ICON',org:'DWD'},{id:'gem_seamless',name:'GEM',org:'CMC'},{id:'jma_seamless',name:'JMA',org:'JMA'},{id:'meteofrance_seamless',name:'ARPEGE',org:'Météo-France'}];let selectedWXModel='ecmwf_ifs025',modelCache={};
-function setupModelDistrict(){const s=$('#modelDistrict');if(!s||s.options.length)return;Object.keys(D).forEach(n=>s.add(new Option(n,n)));s.value=selected}
-async function fetchWXModel(m,p){const vars='temperature_2m,precipitation,snowfall,wind_speed_10m,pressure_msl,temperature_850hPa,temperature_500hPa,geopotential_height_500hPa';const u=`https://api.open-meteo.com/v1/forecast?latitude=${p[0]}&longitude=${p[1]}&hourly=${vars}&models=${m.id}&forecast_hours=48&timezone=Europe%2FIstanbul`;const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw Error(m.name);return r.json()}
-function modelIx(h){let i=h.time.findIndex(t=>new Date(t).getTime()>=Date.now());return i<0?0:i}
-function renderModelDetail(){const d=modelCache[selectedWXModel];if(!d)return;const h=d.hourly,i=modelIx(h),m=WX_MODELS.find(x=>x.id===selectedWXModel);$('#modelDetailTitle').textContent=m.name+' • '+m.org;$('#m850').textContent=h.temperature_850hPa?.[i]==null?'--':h.temperature_850hPa[i]+'°C';$('#m500t').textContent=h.temperature_500hPa?.[i]==null?'--':h.temperature_500hPa[i]+'°C';$('#m500g').textContent=h.geopotential_height_500hPa?.[i]==null?'--':Math.round(h.geopotential_height_500hPa[i])+' m';$('#mMsl').textContent=h.pressure_msl?.[i]==null?'--':Math.round(h.pressure_msl[i])+' hPa';$('#modelHours').innerHTML=h.time.slice(i,i+24).map((t,j)=>{const k=i+j;return `<article><b>${new Date(t).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</b><span>🌡️ ${Math.round(h.temperature_2m[k])}°</span><span>🌧️ ${(h.precipitation[k]||0).toFixed(1)} mm</span><span>❄️ ${(h.snowfall[k]||0).toFixed(1)} cm</span><span>850: ${h.temperature_850hPa?.[k]??'--'}°</span></article>`}).join('');document.querySelectorAll('[data-model]').forEach(b=>b.classList.toggle('active',b.dataset.model===selectedWXModel))}
-async function loadModels(){setupModelDistrict();const n=$('#modelDistrict')?.value||selected,p=D[n]||D.Ortahisar;$('#modelStatus').className='status';$('#modelStatus').textContent=n+' için modeller indiriliyor…';modelCache={};const res=await Promise.allSettled(WX_MODELS.map(async m=>[m,await fetchWXModel(m,p)]));const ok=res.filter(x=>x.status==='fulfilled').map(x=>x.value);ok.forEach(([m,d])=>modelCache[m.id]=d);let rain=[],snow=[];$('#modelCards').innerHTML=ok.map(([m,d])=>{const h=d.hourly,i=modelIx(h),end=Math.min(i+24,h.time.length);let pr=0,sn=0;for(let k=i;k<end;k++){pr+=h.precipitation[k]||0;sn+=h.snowfall[k]||0}if(pr>=1)rain.push(m.name);if(sn>0)snow.push(m.name);return `<button class="modelCard" data-pickmodel="${m.id}"><span>${m.org}</span><b>${m.name}</b><strong>${Math.round(h.temperature_2m[i])}°C</strong><small>24s yağış ${pr.toFixed(1)} mm</small><small>24s kar ${sn.toFixed(1)} cm</small><small>850 hPa ${h.temperature_850hPa?.[i]??'--'}°C</small></button>`}).join('');if(!ok.length){$('#modelStatus').className='status err';$('#modelStatus').textContent='Model verileri alınamadı.';return}$('#modelStatus').className='status ok';$('#modelStatus').textContent=`${n} • ${ok.length}/${WX_MODELS.length} model alındı`;$('#modelConsensus').innerHTML=`<b>Model mutabakat özeti</b><p>${rain.length}/${ok.length} model önümüzdeki 24 saatte ≥1 mm yağış gösteriyor.<br>${snow.length}/${ok.length} model kar sinyali gösteriyor.${snow.length?'<br>Kar gösterenler: '+snow.join(', '):''}</p>`;if(!modelCache[selectedWXModel])selectedWXModel=ok[0][0].id;renderModelDetail()}
-$('#modelCards')?.addEventListener('click',e=>{const b=e.target.closest('[data-pickmodel]');if(b){selectedWXModel=b.dataset.pickmodel;renderModelDetail()}});document.querySelectorAll('[data-model]').forEach(b=>b.addEventListener('click',()=>{selectedWXModel=b.dataset.model;renderModelDetail()}));$('#modelRefresh')?.addEventListener('click',loadModels);$('#modelDistrict')?.addEventListener('change',loadModels);setupModelDistrict();
+// --- v6.6.1 Model Merkezi FIX ---
+const WX_MODELS=[
+{id:'ecmwf_ifs025',name:'ECMWF IFS',org:'ECMWF'},
+{id:'gfs_seamless',name:'GFS',org:'NOAA'},
+{id:'ukmo_seamless',name:'UKMO',org:'Met Office'},
+{id:'icon_seamless',name:'ICON',org:'DWD'},
+{id:'gem_seamless',name:'GEM',org:'CMC'},
+{id:'jma_seamless',name:'JMA',org:'JMA'},
+{id:'meteofrance_seamless',name:'ARPEGE',org:'Météo-France'}];
+let selectedWXModel='ecmwf_ifs025',modelCache={},modelRun=0;
+function setupModelDistrict(){const s=$('#modelDistrict');if(!s)return;if(!s.options.length)Object.keys(D).forEach(n=>s.add(new Option(n,n)));s.value=selected}
+function mix(h){let i=(h.time||[]).findIndex(t=>new Date(t).getTime()>=Date.now());return i<0?0:i}
+async function timedFetch(url,timeout=12000){const c=new AbortController(),t=setTimeout(()=>c.abort(),timeout);try{const r=await fetch(url,{cache:'no-store',signal:c.signal});if(!r.ok)throw Error(r.status);return await r.json()}finally{clearTimeout(t)}}
+async function fetchModel(m,p){
+ const base=`https://api.open-meteo.com/v1/forecast?latitude=${p[0]}&longitude=${p[1]}&models=${m.id}&forecast_hours=48&timezone=Europe%2FIstanbul`;
+ const core=await timedFetch(base+'&hourly=temperature_2m,precipitation,pressure_msl');
+ let upper=null;try{upper=await timedFetch(base+'&hourly=temperature_850hPa,temperature_500hPa,geopotential_height_500hPa',9000)}catch(e){}
+ return {core,upper};
+}
+function renderModelDetail(){
+ const x=modelCache[selectedWXModel];if(!x)return;const m=WX_MODELS.find(a=>a.id===selectedWXModel),h=x.core.hourly,i=mix(h),u=x.upper?.hourly,ui=u?mix(u):0;
+ $('#modelDetailTitle').textContent=m.name+' • '+m.org;
+ $('#m850').textContent=u?.temperature_850hPa?.[ui]!=null?u.temperature_850hPa[ui].toFixed(1)+'°C':'Veri alınamadı';
+ $('#m500t').textContent=u?.temperature_500hPa?.[ui]!=null?u.temperature_500hPa[ui].toFixed(1)+'°C':'Veri alınamadı';
+ $('#m500g').textContent=u?.geopotential_height_500hPa?.[ui]!=null?Math.round(u.geopotential_height_500hPa[ui])+' m':'Veri alınamadı';
+ $('#mMsl').textContent=h.pressure_msl?.[i]!=null?Math.round(h.pressure_msl[i])+' hPa':'Veri alınamadı';
+ $('#modelHours').innerHTML=(h.time||[]).slice(i,i+24).map((t,j)=>{let k=i+j,uk=u?.time?.indexOf(t)??-1;return `<article><b>${new Date(t).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</b><span>🌡️ ${h.temperature_2m?.[k]!=null?Math.round(h.temperature_2m[k])+'°':'--'}</span><span>🌧️ ${(h.precipitation?.[k]??0).toFixed(1)} mm</span><span>850: ${uk>=0&&u?.temperature_850hPa?.[uk]!=null?u.temperature_850hPa[uk].toFixed(1)+'°':'--'}</span></article>`}).join('');
+ document.querySelectorAll('[data-model]').forEach(b=>b.classList.toggle('active',b.dataset.model===selectedWXModel));
+}
+async function loadModels(){
+ setupModelDistrict();const run=++modelRun,n=$('#modelDistrict')?.value||selected,p=D[n]||D.Ortahisar;
+ $('#modelStatus').className='status';$('#modelStatus').textContent=n+' için modeller yükleniyor…';modelCache={};$('#modelCards').innerHTML='';
+ let done=0,ok=0,rain=0;const cards={};
+ await Promise.all(WX_MODELS.map(async m=>{try{const x=await fetchModel(m,p);if(run!==modelRun)return;modelCache[m.id]=x;ok++;const h=x.core.hourly,i=mix(h),end=Math.min(i+24,h.time.length);let pr=0;for(let k=i;k<end;k++)pr+=h.precipitation?.[k]||0;if(pr>=1)rain++;const u=x.upper?.hourly,ui=u?mix(u):0;cards[m.id]=`<button class="modelCard" data-pickmodel="${m.id}"><span>${m.org}</span><b>${m.name}</b><strong>${h.temperature_2m?.[i]!=null?Math.round(h.temperature_2m[i])+'°C':'--'}</strong><small>24s yağış ${pr.toFixed(1)} mm</small><small>850 hPa ${u?.temperature_850hPa?.[ui]!=null?u.temperature_850hPa[ui].toFixed(1)+'°C':'veri yok'}</small></button>`}catch(e){cards[m.id]=`<article class="modelCard"><span>${m.org}</span><b>${m.name}</b><strong>—</strong><small>Şu an alınamadı</small></article>`}finally{done++;if(run===modelRun){$('#modelCards').innerHTML=WX_MODELS.filter(m=>cards[m.id]).map(m=>cards[m.id]).join('');$('#modelStatus').textContent=`${n} • ${done}/${WX_MODELS.length} kontrol edildi • ${ok} model hazır`}}}));
+ if(run!==modelRun)return;$('#modelStatus').className=ok?'status ok':'status err';
+ if(ok){$('#modelConsensus').innerHTML=`<b>Model mutabakat özeti</b><p>${rain}/${ok} çalışan model önümüzdeki 24 saatte ≥1 mm yağış gösteriyor.</p>`;if(!modelCache[selectedWXModel])selectedWXModel=Object.keys(modelCache)[0];renderModelDetail()}else $('#modelConsensus').innerHTML='<b>Model verileri alınamadı.</b>';
+}
+setupModelDistrict();
+$('#modelRefresh').onclick=loadModels;
+$('#modelDistrict').onchange=loadModels;
+$('#modelCards').onclick=e=>{const b=e.target.closest('[data-pickmodel]');if(b){selectedWXModel=b.dataset.pickmodel;renderModelDetail()}};
+document.querySelectorAll('[data-model]').forEach(b=>b.onclick=()=>{selectedWXModel=b.dataset.model;if(modelCache[selectedWXModel])renderModelDetail();else $('#modelDetailTitle').textContent=b.textContent+' • henüz veri hazır değil'});

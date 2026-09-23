@@ -1,3 +1,3 @@
-# TrabzonHava v6.6 — Hava Model Merkezi
+# TrabzonHava v6.6.1 — Model Merkezi FIX
 
-ECMWF IFS, GFS, UKMO, ICON, GEM, JMA ve ARPEGE model karşılaştırması; 24 saat yağış/kar; 850 hPa; 500 hPa sıcaklık ve geopotansiyel; basınç; model mutabakatı; Meteociel model haritalarına geçiş. v6.5 özellikleri korunmuştur.
+İlçe seçimi, model butonları ve üst atmosfer yükleme akışı düzeltildi. Modeller bağımsız yüklenir; bir model veya üst atmosfer alanı hata verirse diğer modeller çalışmaya devam eder.
