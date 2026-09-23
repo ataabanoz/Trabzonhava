@@ -1,3 +1,3 @@
-# TrabzonHava v6.6.2 — Model Merkezi FINAL FIX
+# TrabzonHava v6.6.3 — Safari/PWA Cache Bypass
 
-Open-Meteo model çıktılarındaki model-ekli saatlik veri anahtarları normalize edildi. ECMWF, GFS, UKMO, ICON, GEM, JMA ve ARPEGE bağımsız yüklenir. 850 hPa, 500 hPa, 500 hPa geopotansiyel ve MSL basıncı aynı model cevabından okunur.
+JS, CSS ve manifest dosyaları yeni fiziksel dosya adlarına taşındı. Böylece eski app.js önbelleğinin çalışması engellenir. Model Merkezi v6.6.2 düzeltmesi korunur.
