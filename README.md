@@ -1,3 +1,2 @@
-# TrabzonHava v6.6.3 — Safari/PWA Cache Bypass
-
-JS, CSS ve manifest dosyaları yeni fiziksel dosya adlarına taşındı. Böylece eski app.js önbelleğinin çalışması engellenir. Model Merkezi v6.6.2 düzeltmesi korunur.
+# TrabzonHava v6.7
+Model Merkezi etkileşimi değiştirildi: ECMWF/GFS/UKMO/ICON/GEM/JMA/ARPEGE düğmesine dokununca yalnızca o model istenir ve aynı sayfada 24 saatlik sıcaklık/yağış ile 850 hPa, 500 hPa, 500 hPa geopotansiyel ve deniz seviyesi basıncı gösterilir. İlçe değişimi seçili modeli yeni ilçe için yeniden yükler.
