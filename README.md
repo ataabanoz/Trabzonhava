@@ -1,3 +1,3 @@
-# TrabzonHava v6.6.1 — Model Merkezi FIX
+# TrabzonHava v6.6.2 — Model Merkezi FINAL FIX
 
-İlçe seçimi, model butonları ve üst atmosfer yükleme akışı düzeltildi. Modeller bağımsız yüklenir; bir model veya üst atmosfer alanı hata verirse diğer modeller çalışmaya devam eder.
+Open-Meteo model çıktılarındaki model-ekli saatlik veri anahtarları normalize edildi. ECMWF, GFS, UKMO, ICON, GEM, JMA ve ARPEGE bağımsız yüklenir. 850 hPa, 500 hPa, 500 hPa geopotansiyel ve MSL basıncı aynı model cevabından okunur.
