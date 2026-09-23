@@ -1,10 +1,12 @@
-# TrabzonHava v6.3 — Konum Güvenliği Düzeltmesi
+# TrabzonHava v6.4 — Deniz & Hava Trafiği
 
-- Kırklar Dağı/Tepesi Çaykara Şekersu–Demirkapı hattına taşındı.
-- Aygır Gölü Çaykara Demirkapı/Yedigöller bölgesine düzeltildi.
-- Derindere, Çayıroba, Arpaözü ve Puşur Dağı Çaykara olarak düzeltildi.
-- Arsin Üçpınar ilçe etiketi düzeltildi.
-- Daha önce “Trabzon yüksek kesimleri” etiketiyle temsili koordinat verilmiş ve kesin konumu doğrulanamayan kayıtların sahte koordinatları kaldırıldı.
-- Bu kayıtlarda yanlış canlı hava ve yanlış 3D uçuş yerine “konum doğrulanıyor” gösterilir.
+v6.3 korunmuştur.
 
-Amaç: yanlış noktayı kesinmiş gibi göstermek yerine yalnızca doğrulanmış konumlarda nokta bazlı hava/3D özelliğini çalıştırmak.
+Yeni:
+- 🚢 Deniz Trafiği / AIS bölümü
+- VesselFinder üzerinde Trabzon merkezli canlı deniz trafiğine geçiş
+- ✈️ Hava Trafiği bölümü
+- Flightradar24 üzerinde Trabzon merkezli canlı hava trafiğine geçiş
+- İleride lisanslı API erişimi bağlandığında kendi haritamızda gemi/uçak katmanı eklemek için arayüz altyapısı
+
+Not: TrabzonHava bu sürümde VesselFinder/Flightradar24 canlı verisini kopyalamaz veya sahte trafik üretmez.

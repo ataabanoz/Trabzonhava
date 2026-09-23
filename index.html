@@ -1,6 +1,6 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#071827"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="TrabzonHava"><link rel="manifest" href="./manifest.webmanifest?v=6.3"><link rel="stylesheet" href="./style.css?v=6.3"><link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.css"><title>TrabzonHava</title></head><body>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#071827"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="TrabzonHava"><link rel="manifest" href="./manifest.webmanifest?v=6.4"><link rel="stylesheet" href="./style.css?v=6.4"><link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.css"><title>TrabzonHava</title></head><body>
 <header><div><b>TRABZON<span>HAVA</span></b><small>Hava • Kamera • Deniz • Doğa • Arşiv</small></div><div id="clock">--:--</div></header>
-<nav id="nav"><button class="active" data-view="now">Şimdi</button><button data-view="forecast">Tahmin</button><button data-view="snow">❄️ Kar</button><button data-view="mountains">🏕️ Dağ/Yayla</button><button data-view="radar">Radar</button><button data-view="cameras">📹 Kameralar</button><button data-view="traffic">🚦 Trafik</button><button data-view="map3d">🏔️ 3D Harita</button><button data-view="fishing">🎣 Balıkçı & Tekne</button><button data-view="sea">🌊 Deniz+</button><button data-view="sun">☀️ Güneş/Ay</button><button data-view="charts">📈 Grafik</button><button data-view="nature">🌲 Doğa & Outdoor</button><button data-view="archive">Arşiv</button></nav>
+<nav id="nav"><button class="active" data-view="now">Şimdi</button><button data-view="forecast">Tahmin</button><button data-view="snow">❄️ Kar</button><button data-view="mountains">🏕️ Dağ/Yayla</button><button data-view="radar">Radar</button><button data-view="cameras">📹 Kameralar</button><button data-view="traffic">🚦 Trafik</button><button data-view="map3d">🏔️ 3D Harita</button><button data-view="fishing">🎣 Balıkçı & Tekne</button><button data-view="vessels">🚢 Deniz Trafiği</button><button data-view="flights">✈️ Hava Trafiği</button><button data-view="sea">🌊 Deniz+</button><button data-view="sun">☀️ Güneş/Ay</button><button data-view="charts">📈 Grafik</button><button data-view="nature">🌲 Doğa & Outdoor</button><button data-view="archive">Arşiv</button></nav>
 <main>
 <section class="view active" id="now"><div class="toolbar"><select id="district"></select><button id="refresh">↻ Yenile</button></div><div id="status" class="status">Canlı veri alınıyor…</div><section class="hero"><div><p id="place">ORTAHİSAR • CANLI</p><h1 id="temp">--°</h1><h2 id="condition">Veriler alınıyor…</h2><p id="feels">Hissedilen --°</p></div><div class="orb" id="weatherIcon">☁️</div></section><div class="metrics"><article><span>💧 Nem</span><b id="humidity">--%</b></article><article><span>🌬️ Rüzgâr</span><b id="wind">-- km/sa</b></article><article><span>🧭 Yön</span><b id="winddir">--</b></article><article><span>📉 Basınç</span><b id="pressure">-- hPa</b></article><article><span>🌧️ Yağış</span><b id="rain">-- mm</b></article><article><span>☁️ Bulut</span><b id="cloud">--%</b></article></div><h3>Trabzon'un 18 İlçesi</h3><div id="districts" class="grid"></div></section>
 <section class="view" id="forecast"><h2>7 Günlük Tahmin</h2><p class="muted" id="forecastTitle"></p><div id="daily" class="daily"></div><h3>Önümüzdeki 24 Saat</h3><div id="hourly" class="hourly"></div></section>
@@ -75,6 +75,27 @@
   <div class="info"><b>⚠️ Deniz güvenliği</b><p>Bu panel seyir/navigasyon aracı değildir. Model akıntı ve kıyı verilerinin çözünürlüğü sınırlıdır. Tekne boyutu, donanım, kaptan tecrübesi ve yerel liman uyarıları ayrıca değerlendirilmelidir.</p></div>
 </section>
 
+<section class="view" id="vessels">
+<h2>🚢 Trabzon Deniz Trafiği</h2>
+<p class="muted">Trabzon ve Doğu Karadeniz açıklarındaki gemi trafiğine hızlı erişim. Canlı AIS gemi konumları lisanslı servis tarafından gösterilir.</p>
+<div class="trafficLiveHero"><div><span>TRABZON • AIS</span><h2>Deniz Trafiği</h2><p>Yük gemileri • tankerler • yolcu gemileri • tekneler</p></div><div>🚢</div></div>
+<div class="metrics"><article><span>⚓ Bölge</span><b>Trabzon Limanı</b></article><article><span>🌊 Kapsama</span><b>Doğu Karadeniz</b></article><article><span>📡 Sistem</span><b>AIS</b></article><article><span>🗺️ Canlı harita</span><b>VesselFinder</b></article></div>
+<div class="externalTraffic">
+<a class="trafficLaunch" href="https://www.vesselfinder.com/?lat=41.00&lon=39.72&zoom=9" target="_blank" rel="noopener"><span>🚢</span><div><b>VesselFinder'da Trabzon'u canlı aç</b><small>Gemi adı, tip, hız, rota ve AIS konumlarını görüntüle</small></div><strong>↗</strong></a>
+</div>
+<div class="info"><b>📡 Neden gemileri burada doğrudan göstermiyoruz?</b><p>VesselFinder'ın canlı AIS verisini başka bir sitede yeniden göstermek API/lisans erişimi gerektirir. TrabzonHava sahte gemi üretmez. API erişimi bağlandığında bu bölüm kendi haritamızdaki canlı gemi katmanına hazırdır.</p></div>
+</section>
+<section class="view" id="flights">
+<h2>✈️ Trabzon Hava Trafiği</h2>
+<p class="muted">Trabzon Havalimanı ve Doğu Karadeniz üzerindeki uçuşlara hızlı canlı erişim.</p>
+<div class="trafficLiveHero air"><div><span>TRABZON • TZX</span><h2>Hava Trafiği</h2><p>Kalkışlar • varışlar • transit uçuşlar</p></div><div>✈️</div></div>
+<div class="metrics"><article><span>🛫 Havalimanı</span><b>Trabzon (TZX)</b></article><article><span>🧭 Bölge</span><b>Doğu Karadeniz</b></article><article><span>📡 Takip</span><b>ADS-B / radar</b></article><article><span>🗺️ Canlı harita</span><b>Flightradar24</b></article></div>
+<div class="externalTraffic">
+<a class="trafficLaunch" href="https://www.flightradar24.com/41.00,39.72/9" target="_blank" rel="noopener"><span>✈️</span><div><b>Flightradar24'te Trabzon'u canlı aç</b><small>Uçuş numarası, irtifa, hız, rota ve uçak bilgilerini görüntüle</small></div><strong>↗</strong></a>
+</div>
+<div class="info"><b>📡 Canlı uçak katmanı</b><p>Flightradar24 verisini TrabzonHava içinde yeniden yayınlamak API/lisans gerektirir. Bu sürüm resmî canlı servise geçiş sağlar; ileride API erişimi eklenirse uçaklar kendi 2D/3D haritamızda gösterilebilir.</p></div>
+</section>
+
 <section class="view" id="sea"><h2>Karadeniz • Trabzon</h2><div id="seaStatus" class="status">Deniz verisi alınıyor…</div><div class="metrics"><article><span>🌊 Dalga</span><b id="wave">-- m</b></article><article><span>⏱️ Periyot</span><b id="period">-- sn</b></article><article><span>🧭 Dalga yönü</span><b id="wavedir">--</b></article><article><span>🌬️ Rüzgâr dalgası</span><b id="windwave">-- m</b></article><article><span>🌡️ Deniz sıcaklığı</span><b id="sst">-- °C</b></article><article><span>🌀 Akıntı</span><b id="currentSea">-- km/sa</b></article></div><div class="info"><b>Balıkçı notu</b><p id="fishNote">Veriler yükleniyor…</p></div></section>
 <section class="view" id="nature">
 <h2>🌲 Doğa & Outdoor Merkezi</h2>
@@ -99,4 +120,4 @@
 <div class="info"><b>Kaynak ve güvenlik</b><p>Canlı meteoroloji değerleri Open-Meteo model verisidir. Dağ havası kısa mesafede hızla değişebilir. Kamp/trekking puanı karar desteğidir; yol açıklığı, çığ, heyelan, yıldırım, arazi ve yerel resmî uyarılar ayrıca kontrol edilmelidir.</p></div>
 </section>
 <section class="view" id="archive"><h2>Geçmişe Git</h2><p class="muted">Bir tarih seç. Bu bölüm gözlem istasyonu kaydı değil; Open-Meteo Historical API'nin yeniden analiz/model verisini gösterir.</p><div class="toolbar"><input id="archiveDate" type="date"><button id="archiveBtn">Getir</button></div><div id="archiveStatus" class="status">Tarih seçebilirsin.</div><div id="archiveData" class="metrics"></div></section>
-</main><footer>TrabzonHava • kişisel web paneli</footer><script type="module" src="./app.js?v=6.3"></script></body></html>
+</main><footer>TrabzonHava • kişisel web paneli</footer><script type="module" src="./app.js?v=6.4"></script></body></html>
